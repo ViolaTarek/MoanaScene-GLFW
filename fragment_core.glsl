@@ -1,0 +1,35 @@
+#version 330
+in vec3 vs_position;
+in vec3 vs_color;
+in vec2 vs_texcoord;
+in vec3 vs_normal;
+
+out vec4 fs_color;
+
+uniform sampler2D texture0;
+uniform sampler2D texture1;
+
+uniform vec3 lightPos0;
+
+void main(){
+
+	//Ambient light
+	vec3 ambientLight = vec3(0.1f, 0.1f, 0.1f);
+
+	//Diffuse light
+	vec3 posToLightDirVec = normalize(vs_position - lightPos0);
+	vec3 diffuseColor = vec3(1.0f, 1.0f, 1.0f);
+	float diffuse = clamp(dot(posToLightDirVec, vs_normal), 0, 1);
+	vec3 diffuseFinal = diffuseColor * diffuse;
+
+
+	fs_color = 
+	texture(texture0, vs_texcoord) * texture(texture1, vs_texcoord)
+	* (vec4(ambientLight, 1.0f) + vec4(diffuseFinal, 1.0f));
+
+
+
+	//fs_color = vec4(vs_color, 1.0f);
+	//fs_color = texture(texture0, vs_texcoord) * vec4(vs_color, 1.0; momkn a3ml da w alwen l texture b ay colors
+
+}
